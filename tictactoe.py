@@ -35,6 +35,7 @@ Namespaces are one honking great idea -- let's do more of those!
 # don't take my word as gospel, as I am also learning. Try to take in all the points I made and decide for yourself if you find yourself agreeing with me or not
 # Also, don't accept this pull request but instead use this as jumping off point to make your code better :D
 import tkinter as tk # explicit is better than implicit here. and also things like Button and Label might be used elsewhere (very common names)
+# you will find that I have prefixed all the tk lib stuff with tk.***
 import array as arr
 import result
 import sys
@@ -45,10 +46,10 @@ f = tk.Frame(root)
 f.place(relheight=1, relwidth=1)
 
 
-# 1. class names are generally started with uppercase
+# 1. class names are generally started with uppercase letter
 # 2. classes usually work as abstractions on real world things. The name buttons here is not really indicitive of what the class represents
-## Board or TicTacToeBoard might be a better name, that you can use in this context
-# 3. This does really gain anything by being a class. You even use it as a callable and keep it anonymous
+## Board or TicTacToeBoard might be a better name, that you can be used in this context
+# 3. This doesn't really gain anything by being a class. You even use it as a callable and keep it anonymous
 ##  (so you can use this as a function and nothing would really change). In general, a class will
 ##  will have state and functionality relating to said state. in this case you have no state and the functions are working with global variables
 ##  here's a challenge, try to remove global variables and make it instead member variables of the class. Then try to get it to work
@@ -91,6 +92,9 @@ class TicTacToeBoard:
         global list
 
         if (list[n - 1] == 0):
+            # this variable isn't initialized in the init function
+            # bug waiting to happen here as the initialization of this member var isn't known
+            # also, I don't see this being used anywhere else? Not sure tbh, I can be wrong here.
             self.config(text="X", font=("", 25))
             list[n - 1] = 1
         else:
@@ -110,7 +114,7 @@ class TicTacToeBoard:
         global all
         global list
         k = result.nextpos(list)
-        all[k].config(text="O", font=("",25))
+        all[k].config(text="O", font=("",25)) # seems like this has something to do with line #98? but now you're using all instead of self. So does the class really even need a config member?
         list[k] = 2
         j = result.checkresult(list)
         if (j == 1):
